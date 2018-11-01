@@ -6,64 +6,72 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    public class BinaryBTreeNode : Node
+    public class BinaryBTreeNode // inheritance was bad idea
     {
-        public BinaryBTreeNode(int key) : base(key)
+        public int key;
+
+        public BinaryBTreeNode(int key)
         {
+            this.key = key;
         }
 
-        new public string ToString(int depth)
+        public void Clear()
+        {
+            Right = null;
+            Left = null;
+        }
+
+        override public string ToString() => ToString(0);
+
+        public string ToString(int depth)
         {
             string tab = new String(' ', 4 * depth);
-            string leftStr = "_", middleStr = "_", rightStr = "_";
+            string leftStr = "_", rightStr = "_";
             if (Left != null)
                 leftStr = "\n" + Left.ToString(depth + 1);
-            if (Middle != null)
-                leftStr = "\n" + Middle.ToString(depth + 1);
             if (Right != null)
                 rightStr = "\n" + Right.ToString(depth + 1);
-            return $"{tab}(Node {key} {leftStr} {middleStr} {rightStr})";
+            return $"{tab}(Node {key} {leftStr} {rightStr})";
         }
 
-        public void AddChild(BinaryBTreeNode node)
-        {
-            if (node.key < key)
-            {
-                if (Left == null)
-                    Left = node;
-                else
-                    Left.AddChild(node);
-            }
-            else
-            {
-                if (Middle == null)
-                    Middle = node;
-                else if (node.key < Middle.key)
-                    Middle.AddChild(node);
-                else if (Right == null)
-                    Right = node;
-                else
-                    Right.AddChild(node);
-            }
-        }
+        public List<BinaryBTreeNode> Children => new List<BinaryBTreeNode>(3) { Left, Right }.FindAll(n => n != null);
 
-        public new List<BinaryBTreeNode> Children => new List<BinaryBTreeNode>(3) { Left, Middle, Right }.FindAll(n => n != null);
+        public int NChildren => Children.Count();
 
-        public new int NChildren => Children.Count();
+        public bool HasNoChilds => Left == null && Right == null;
 
-        public new bool HasNoChilds => Left == null && Right == null && Middle == null;
-
+        /* height of B-Tree */
         public int BHeight
         {
             get
             {
-                if (HasNoChilds)
+                return 1 + Math.Max(LeftBHeight, RightBHeight);
+            }
+        }
+
+        public int LeftBHeight
+        {
+            get
+            {
+                if (Left == null)
+                    return 0;
+                else if (Left.HasNoChilds)
                     return 1;
                 else
-                {
-                    List<BinaryBTreeNode> nodes = new List<BinaryBTreeNode>(3) { Left, Middle, Right };
-                    return 1 + nodes.Where(n => n != null).Max(n => n.BHeight);
-                }
+                    return Left.BHeight;
+            }
+        }
+
+        public int RightBHeight
+        {
+            get
+            {
+                if (Right == null)
+                    return 0;
+                else if (Right.HasNoChilds)
+                    return 0;
+                else
+                    return Right.Children.Max(n => n.BHeight);
             }
         }
 
@@ -73,18 +81,36 @@ namespace BinarySearchTrees
             {
                 if (HasNoChilds)
                     return true;
-                else if (NChildren == 3)
-                {
-                    int h = Left.BHeight;
-                    return Children.All(n => n.BHeight == h);
-                }
+                else if (NChildren == 2)
+                    return Left.Full && Right.Full && LeftBHeight == RightBHeight;
                 else
                     return false;
             }
         }
 
-        public new BinaryBTreeNode Left { get; set; } = null;
-        public BinaryBTreeNode Middle { get; set; } = null;
-        public new BinaryBTreeNode Right { get; set; } = null;
+        public BinaryBTreeNode Leftmost
+        {
+            get
+            {
+                BinaryBTreeNode node = this;
+                while (node != null && node.Left != null)
+                    node = node.Left;
+                return node;
+            }
+        }
+
+        public BinaryBTreeNode Rightmost
+        {
+            get
+            {
+                BinaryBTreeNode node = this;
+                while (node != null && node.Right != null)
+                    node = node.Right;
+                return node;
+            }
+        }
+
+        public BinaryBTreeNode Left { get; set; } = null;
+        public BinaryBTreeNode Right { get; set; } = null;
     }
 }

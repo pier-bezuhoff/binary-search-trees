@@ -8,6 +8,7 @@ namespace BinarySearchTrees
 {
     class FibonacciTree : Tree
     {
+        public Node Root { get; set; } = null;
         public static int[] fibs;
         public static int[] maxKeys;
 

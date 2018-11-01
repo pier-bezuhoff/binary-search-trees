@@ -49,7 +49,7 @@
             this.ChooseB.TabStop = true;
             this.ChooseB.Text = "B";
             this.ChooseB.UseVisualStyleBackColor = true;
-            this.ChooseB.CheckedChanged += new System.EventHandler(this.chooseB_CheckedChanged);
+            this.ChooseB.CheckedChanged += new System.EventHandler(this.ChooseB_CheckedChanged);
             // 
             // TreeChooser
             // 
@@ -73,7 +73,7 @@
             this.ChooseOptimalSearch.TabStop = true;
             this.ChooseOptimalSearch.Text = "Optimal search";
             this.ChooseOptimalSearch.UseVisualStyleBackColor = true;
-            this.ChooseOptimalSearch.CheckedChanged += new System.EventHandler(this.chooseOptimalSearch_CheckedChanged);
+            this.ChooseOptimalSearch.CheckedChanged += new System.EventHandler(this.ChooseOptimalSearch_CheckedChanged);
             // 
             // ChooseFibonacci
             // 
@@ -85,7 +85,7 @@
             this.ChooseFibonacci.TabStop = true;
             this.ChooseFibonacci.Text = "Fibonacci";
             this.ChooseFibonacci.UseVisualStyleBackColor = true;
-            this.ChooseFibonacci.CheckedChanged += new System.EventHandler(this.chooseFibonacci_CheckedChanged);
+            this.ChooseFibonacci.CheckedChanged += new System.EventHandler(this.ChooseFibonacci_CheckedChanged);
             // 
             // TreeSExp
             // 
@@ -111,7 +111,7 @@
             this.Include.TabIndex = 4;
             this.Include.Text = "Include";
             this.Include.UseVisualStyleBackColor = true;
-            this.Include.Click += new System.EventHandler(this.include_Click);
+            this.Include.Click += new System.EventHandler(this.Include_Click);
             // 
             // MainForm
             // 

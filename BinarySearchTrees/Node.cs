@@ -16,10 +16,7 @@ namespace BinarySearchTrees
             this.key = key;
         }
 
-        public string ToString()
-        {
-            return this.ToString(0);
-        }
+        override public string ToString() => ToString(0);
 
         public string ToString(int depth)
         {

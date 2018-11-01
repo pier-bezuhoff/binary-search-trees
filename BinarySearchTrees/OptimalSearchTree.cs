@@ -14,6 +14,8 @@ namespace BinarySearchTrees
         static int[] nMissing = new int[] {5, 1, 10, 12, 30, 10, 9, 150}; // length nMissing == nKeys + 1
         static int[][] weights, paths, optimalKeys;
 
+        public Node Root { get; set; } = null;
+
         public OptimalSearchTree()
         {
             int keyIndex = optimalKeys[0][nKeys - 1];

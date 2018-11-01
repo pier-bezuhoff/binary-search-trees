@@ -23,6 +23,10 @@ namespace BinarySearchTrees
             if (ChooseB.Checked)
             {
                 tree = new BinaryBTree();
+                tree.Include(0);
+                tree.Include(1);
+                tree.Include(2);
+                tree.Include(3);
             } else if (ChooseFibonacci.Checked)
             {
                 tree = new FibonacciTree();
@@ -33,7 +37,7 @@ namespace BinarySearchTrees
             TreeSExp.Text = tree.ToString();
         }
 
-        private void include_Click(object sender, EventArgs e)
+        private void Include_Click(object sender, EventArgs e)
         {
             try
             {
@@ -46,7 +50,7 @@ namespace BinarySearchTrees
             }
         }
 
-        private void chooseB_CheckedChanged(object sender, EventArgs e)
+        private void ChooseB_CheckedChanged(object sender, EventArgs e)
         {
             if (ChooseB.Checked)
             {
@@ -55,7 +59,7 @@ namespace BinarySearchTrees
             }
         }
 
-        private void chooseFibonacci_CheckedChanged(object sender, EventArgs e)
+        private void ChooseFibonacci_CheckedChanged(object sender, EventArgs e)
         {
             if (ChooseFibonacci.Checked)
             {
@@ -64,7 +68,7 @@ namespace BinarySearchTrees
             }
         }
 
-        private void chooseOptimalSearch_CheckedChanged(object sender, EventArgs e)
+        private void ChooseOptimalSearch_CheckedChanged(object sender, EventArgs e)
         {
             if (ChooseOptimalSearch.Checked)
             {
