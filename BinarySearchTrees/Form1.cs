@@ -23,10 +23,8 @@ namespace BinarySearchTrees
             if (ChooseB.Checked)
             {
                 tree = new BinaryBTree();
-                tree.Include(0);
-                tree.Include(1);
-                tree.Include(2);
-                tree.Include(3);
+                for (int i = 0; i <= 9; i++)
+                    tree.Include(i);
             } else if (ChooseFibonacci.Checked)
             {
                 tree = new FibonacciTree();

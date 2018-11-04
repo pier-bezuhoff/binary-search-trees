@@ -15,7 +15,8 @@ namespace BinarySearchTrees
 
         public void NotUniqueKey(int key)
         {
-            throw new SystemException($"key {key} already exists!");
+            System.Console.WriteLine($"key {key} already exists!");
+            // throw new SystemException($"key {key} already exists!");
         }
     }
 }

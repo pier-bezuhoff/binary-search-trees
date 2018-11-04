@@ -20,9 +20,6 @@ namespace BinarySearchTrees
 
         public override void Include(int key)
         {
-            var node = new BinaryBTreeNode(239);
-            node.Right = Root;
-            node.Left = Root;
             Root = Include(Root, new BinaryBTreeNode(key));
         }
 
@@ -81,7 +78,7 @@ namespace BinarySearchTrees
             if (left.Right == null)
             {
                 newRoot = left;
-                left = left.Left;
+                left = left.Left; // cannot be null
             }
             else
             {
@@ -108,7 +105,7 @@ namespace BinarySearchTrees
             if (right.Left == null)
             {
                 newRoot = right;
-                right = right.Right;
+                right = right.Right; // cannot be null
             }
             else
             {
@@ -127,7 +124,7 @@ namespace BinarySearchTrees
             return newRoot;
         }
 
-        /* should be Full + 1 - 1
+        /* should be Full - n + 1 - 1
          * => new root */
         BinaryBTreeNode Rebalance(BinaryBTreeNode root)
         {
@@ -140,8 +137,8 @@ namespace BinarySearchTrees
                 else // root.Left == null
                     return RotateLeft(root);
             }
-            else // NChildren == 2; at least one of left or right is not Full
-            if (root.Right.Full)
+            // NChildren == 2; at least one of left or right is not Full
+            else if (root.Right.Full)
                 root.Left = Rebalance(root.Left);
             else if (root.Left.Full)
             {

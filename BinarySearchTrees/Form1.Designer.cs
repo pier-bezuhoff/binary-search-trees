@@ -92,7 +92,7 @@
             this.TreeSExp.Location = new System.Drawing.Point(31, 119);
             this.TreeSExp.Name = "TreeSExp";
             this.TreeSExp.ReadOnly = true;
-            this.TreeSExp.Size = new System.Drawing.Size(457, 300);
+            this.TreeSExp.Size = new System.Drawing.Size(457, 538);
             this.TreeSExp.TabIndex = 2;
             this.TreeSExp.Text = "";
             // 
