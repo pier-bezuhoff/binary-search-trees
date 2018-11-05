@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="BinaryBTree.cs" />
     <Compile Include="BinaryBTreeNode.cs" />
+    <Compile Include="BTree.cs" />
+    <Compile Include="BTreeNode.cs" />
     <Compile Include="FibonacciTree.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
