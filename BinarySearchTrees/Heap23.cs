@@ -29,5 +29,6 @@ namespace BinarySearchTrees
                     Include(t);
             }
         }
+        // TODO: delete min, decrease key, ?delete key?
     }
 }
