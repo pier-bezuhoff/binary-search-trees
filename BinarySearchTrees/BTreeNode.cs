@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    class BTreeNode
+    class BTreeNode : NodeT<BTreeNode>
     {
         int capacity; // number of values
         public List<int> keys; // capacity
@@ -14,7 +14,7 @@ namespace BinarySearchTrees
 
         override public string ToString() => ToString(0);
 
-        public string ToString(int depth)
+        override public string ToString(int depth)
         {
             string tab = new String(' ', 4 * depth);
             string[] strs = Enumerable.Repeat<string>("_", capacity + 1).ToArray();
@@ -27,7 +27,9 @@ namespace BinarySearchTrees
             return $"{tab}(Node {string.Join(" ", keys)} {string.Join(" ", strs)})";
         }
 
-        BTreeNode(int capacity)
+        public BTreeNode(int key, int capacity) : this(new List<int>(1) { key }, capacity) { }
+
+        public BTreeNode(List<int> keys, int capacity) : base(keys[0])
         {
             if (capacity < 2)
                 throw new Exception($"too small capacity: {capacity}");
@@ -35,22 +37,13 @@ namespace BinarySearchTrees
             keys = new List<int>(capacity + 1); // because i store when new overflowing key added
             // children = new List<BTreeNode>(capacity + 1);
             children = Enumerable.Repeat<BTreeNode>(null, capacity + 1).ToList();
-        }
-
-        public BTreeNode(int key, int capacity) : this(capacity)
-        {
-            keys.Add(key);
-        }
-
-        public BTreeNode(List<int> keys, int capacity) : this(capacity)
-        {
             if (keys.Count > capacity)
                 throw new Exception($"too many elements in keys: {keys.Count}");
             this.keys = keys;
         }
 
-        public bool HasNoChilds => children.All(n => n == null);
-        public int NChildren => children.Count(n => n != null);
+        public override IEnumerable<BTreeNode> Children() => children;
+
         public int NKeys => keys.Count;
     }
 }

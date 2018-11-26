@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    class FibonacciTree : Tree
+    class FibonacciTree : Tree<BinaryNode>
     {
-        public Node Root { get; set; } = null;
         public static int[] fibs;
         public static int[] maxKeys;
 
@@ -49,12 +48,12 @@ namespace BinarySearchTrees
 
         public override void Include(int key)
         {
-            Include(key, Root);
+            Include(key, root);
         }
 
-        public void Include(int key, Node root)
+        public void Include(int key, BinaryNode root)
         {
-            Node node = new Node(key);
+            BinaryNode node = new BinaryNode(key);
             if (root == null)
             {
                 if (key == fibs[1])
@@ -64,10 +63,10 @@ namespace BinarySearchTrees
                 }
                 else
                 {
-                    root = new Node(fibs[1]);
+                    root = new BinaryNode(fibs[1]);
                 }
             }
-            int height = root.Height;
+            int height = root.Height();
             int maxKey = maxKeys[height];
             if (key > maxKey)
             {
@@ -83,9 +82,9 @@ namespace BinarySearchTrees
                 {
                     if (key - root.key == delta)
                     {
-                        if (root.Right == null)
+                        if (root.right == null)
                         {
-                            root.Right = node;
+                            root.right = node;
                             notFound = false;
                         }
                         else
@@ -96,21 +95,21 @@ namespace BinarySearchTrees
                     }
                     else
                     {
-                        if (root.Right == null)
+                        if (root.right == null)
                         {
-                            root.Right = new Node(root.key + delta);
+                            root.right = new BinaryNode(root.key + delta);
                         }
                         height--;
-                        root = root.Right; // next iteration
+                        root = root.right; // next iteration
                     }
                 }
                 else if (key < root.key) // node < root
                 {
                     if (root.key - key == delta)
                     {
-                        if (root.Left == null)
+                        if (root.left == null)
                         {
-                            root.Left = node;
+                            root.left = node;
                             notFound = false;
                         }
                         else
@@ -121,12 +120,12 @@ namespace BinarySearchTrees
                     }
                     else
                     {
-                        if (root.Left == null)
+                        if (root.left == null)
                         {
-                            root.Left = new Node(root.key - delta);
+                            root.left = new BinaryNode(root.key - delta);
                         }
                         height--;
-                        root = root.Left; // next iteration
+                        root = root.left; // next iteration
                     }
                 }
                 else

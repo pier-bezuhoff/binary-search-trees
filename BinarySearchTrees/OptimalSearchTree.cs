@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    class OptimalSearchTree : Tree
+    class OptimalSearchTree : Tree<BinaryNode>
     {
         static int nKeys = 7;
         static int[] keys = new int[] {2, 3, 6, 12, 40, 89, 100};
@@ -14,31 +14,29 @@ namespace BinarySearchTrees
         static int[] nMissing = new int[] {5, 1, 10, 12, 30, 10, 9, 150}; // length nMissing == nKeys + 1
         static int[][] weights, paths, optimalKeys;
 
-        public Node Root { get; set; } = null;
-
         public OptimalSearchTree()
         {
             int keyIndex = optimalKeys[0][nKeys - 1];
-            Root = new Node(keys[keyIndex]);
-            Root.Left = (new OptimalSearchTree(0, keyIndex - 1)).Root;
-            Root.Right = (new OptimalSearchTree(keyIndex + 1, nKeys - 1)).Root;
+            root = new BinaryNode(keys[keyIndex]);
+            root.left = (new OptimalSearchTree(0, keyIndex - 1)).root;
+            root.right = (new OptimalSearchTree(keyIndex + 1, nKeys - 1)).root;
         }
 
         public OptimalSearchTree(int from, int to)
         {
             if (from > to)
             {
-                Root = null;
+                root = null;
             } else if (from == to)
             {
-                Root = new Node(keys[from]);
+                root = new BinaryNode(keys[from]);
             }
             else
             {
                 int keyIndex = optimalKeys[from][to];
-                Root = new Node(keys[keyIndex]);
-                Root.Left = (new OptimalSearchTree(from, keyIndex - 1)).Root;
-                Root.Right = (new OptimalSearchTree(keyIndex + 1, to)).Root;
+                root = new BinaryNode(keys[keyIndex]);
+                root.left = (new OptimalSearchTree(from, keyIndex - 1)).root;
+                root.right = (new OptimalSearchTree(keyIndex + 1, to)).root;
             }
         }
 

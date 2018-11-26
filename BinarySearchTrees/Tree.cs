@@ -6,16 +6,25 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    abstract class Tree
+    abstract public class Tree<N> : ITreeLike where N : NodeT<N>
     {
-        public Tree()
-        {}
+        public N root = null;
+
+        public Tree() { }
+
+        public override string ToString()
+        {
+            if (root == null)
+                return "()";
+            else
+                return root.ToString();
+        }
 
         abstract public void Include(int key);
 
         public void NotUniqueKey(int key)
         {
-            System.Console.WriteLine($"key {key} already exists!");
+            Console.WriteLine(string.Format("key {0} already exists!", key));
             // throw new SystemException($"key {key} already exists!");
         }
     }

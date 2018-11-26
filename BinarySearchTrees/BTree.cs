@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    class BTree : Tree
+    class BTree : Tree<BTreeNode>
     {
         // BUG: 3 34 12 10 13!
         int capacity;
-        BTreeNode root = null;
 
         public BTree(int capacity)
         {
@@ -42,15 +41,15 @@ namespace BinarySearchTrees
                     NotUniqueKey(key);
                 var ks = root.keys.Where(k => k > key);
                 int more = ks.Count() == 0? root.NKeys : root.keys.FindIndex(k => k > key);
-                if (root.HasNoChilds)
+                if (root.IsLeaf())
                 {
                     root.keys.Insert(more, key);
-                    if (node.NChildren == 2)
+                    if (node.NChildren() == 2)
                     {
                         root.children[more] = node.children[0];
                         root.children[more + 1] = node.children[1];
                     }
-                    else if (!node.HasNoChilds)
+                    else if (!node.IsLeaf())
                         throw new Exception("node cannot have not (0 or 2) childs");
                     // now root.values is sorted list
                     if (root.keys.Count > capacity)
@@ -62,11 +61,11 @@ namespace BinarySearchTrees
                     {
                         if (root.NKeys < capacity) {
                             root.keys.Add(key);
-                            if (node.NChildren == 2)
+                            if (node.NChildren() == 2)
                             {
                                 root.children[root.NKeys] = node.children[0];
                                 root.children[root.NKeys + 1] = node.children[1];
-                            } else if (!node.HasNoChilds)
+                            } else if (!node.IsLeaf())
                                 throw new Exception("node cannot have not (0 or 2) childs");
                         }
                         else
