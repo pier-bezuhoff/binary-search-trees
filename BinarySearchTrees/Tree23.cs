@@ -10,21 +10,13 @@ namespace BinarySearchTrees
     {
         public int height = 1; // length of this trunk
         public int degree = 1; // n of children
-        public Node23 root;
         public Tree23 trunk = null; // trunk of (degree - 1)-th trees
         public Tree23 partner = null; // next degree-th tree in trunk
 
-        public Tree23 (Node23 root) : base(root.key)
-        {
-            this.root = root;
-            degree = root.degree;
-        }
-
-        public Tree23 (int key) : this(new Node23(key)) { }
+        public Tree23 (int key) : base(key) { } 
 
         public Tree23 (Tree23 trunkHead) : base(trunkHead.key)
         {
-            root = trunkHead.root;
             degree = trunkHead.degree + 1;
             trunk = trunkHead;
             height = trunkHead.Trunk().Count();
@@ -62,7 +54,7 @@ namespace BinarySearchTrees
                 throw new Exception("Merging 2-3-trees with different degrees!");
             var min = this;
             var max = tree;
-            if (min.root.key > max.root.key)
+            if (min.key > max.key)
             {
                 max = this;
                 min = tree;
@@ -77,7 +69,7 @@ namespace BinarySearchTrees
                 var small = max.trunk.partner;
                 small.height = 1;
                 max.trunk.partner = null;
-                if (max.root.key >= min.trunk.partner.root.key)
+                if (max.key >= min.trunk.partner.key)
                 {
                     min.trunk.partner.partner = max.trunk;
                 }
@@ -95,6 +87,35 @@ namespace BinarySearchTrees
                 min.partner = max;
                 return new List<Tree23>(1) { new Tree23(min) };
             }
+        }
+
+        // degree > 1, height <= 2, tree.degree <= trunk.degree
+        public void IncludeLess(Tree23 tree)
+        {
+            if (degree == 1)
+                throw new Exception("degree should be > 1!");
+            if (height <= 2)
+                throw new Exception("height should be 2!");
+            if (trunk.degree < tree.degree)
+                throw new Exception("tree.degree should be <= trunk.degree!");
+            if (height == 1)
+            {
+                var merged = 
+            }
+        }
+
+        public Tree23 RemoveRoot()
+        {
+            if (degree == 1)
+                throw new Exception("Removing root from T1!");
+            if (degree == 2)
+                return trunk.partner;
+            var trunkHead = trunk;
+            trunk = trunk.partner;
+            height--;
+            trunkHead.partner = null;
+            IncludeLess(trunkHead.RemoveRoot());
+            return this;
         }
     }
 }

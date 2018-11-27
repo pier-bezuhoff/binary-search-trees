@@ -61,7 +61,6 @@
     </Compile>
     <Compile Include="Heap.cs" />
     <Compile Include="Heap23.cs" />
-    <Compile Include="Node23.cs" />
     <Compile Include="Tree23.cs" />
     <Compile Include="NodeT.cs" />
     <Compile Include="OptimalSearchTree.cs" />

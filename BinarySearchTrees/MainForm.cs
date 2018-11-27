@@ -14,6 +14,8 @@ namespace BinarySearchTrees
     {
         private List<int> usedKeys = new List<int>();
         private Random generator = new Random();
+        private int minBound = 1;
+        private int maxBound = 200;
         ITreeLike tree;
         public MainForm()
         {
@@ -53,6 +55,17 @@ namespace BinarySearchTrees
             }
         }
 
+        private int GenerateUniqueKey()
+        {
+            if (usedKeys.Count() + 1 >= maxBound - minBound)
+                maxBound += 100;
+            var x = generator.Next(minBound, maxBound);
+            while (usedKeys.Contains(x))
+                x = generator.Next(minBound, maxBound);
+            usedKeys.Add(x);
+            return x;
+        }
+
         private void Include_Click(object sender, EventArgs e)
         {
             IncludeKey(IncludeField.Text.ToString());
@@ -85,10 +98,7 @@ namespace BinarySearchTrees
 
         private void IncludeRandom_Click(object sender, EventArgs e)
         {
-            var x = generator.Next(1, 100);
-            while (usedKeys.Contains(x))
-                x = generator.Next(1, 100);
-            usedKeys.Add(x);
+            var x = GenerateUniqueKey();
             IncludeKey(x.ToString());
             LastRandomIncluded.Text = x.ToString();
         }

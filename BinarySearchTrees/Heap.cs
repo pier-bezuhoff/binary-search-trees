@@ -17,7 +17,7 @@ namespace BinarySearchTrees
             return string.Format("[\n{0}\n]", string.Join("\n", trees.Select(t => t.ToString())));
         }
 
-        public N Min() => trees.Min();
+        public int Min() => trees.Min().key;
 
         abstract public void Include(int key);
     }

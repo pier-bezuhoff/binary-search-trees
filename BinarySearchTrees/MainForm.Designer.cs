@@ -106,7 +106,7 @@
             this.TreeSExp.Location = new System.Drawing.Point(31, 119);
             this.TreeSExp.Name = "TreeSExp";
             this.TreeSExp.ReadOnly = true;
-            this.TreeSExp.Size = new System.Drawing.Size(682, 639);
+            this.TreeSExp.Size = new System.Drawing.Size(682, 801);
             this.TreeSExp.TabIndex = 2;
             this.TreeSExp.Text = "";
             // 
@@ -159,7 +159,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1495, 770);
+            this.ClientSize = new System.Drawing.Size(1495, 932);
             this.Controls.Add(this.LastRandomIncluded);
             this.Controls.Add(this.IncludeRandom);
             this.Controls.Add(this.Clear);

@@ -29,6 +29,19 @@ namespace BinarySearchTrees
                     Include(t);
             }
         }
+
+        public int PopMin()
+        {
+            var minTree = trees.Min();
+            var min = minTree.key;
+            trees.Remove(minTree);
+            if (minTree.degree > 1)
+            {
+                minTree.RemoveRoot();
+                Include(minTree);
+            }
+            return min;
+        }
         // TODO: delete min, decrease key, ?delete key?
     }
 }
