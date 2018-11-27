@@ -25,7 +25,7 @@ namespace BinarySearchTrees
             return string.Format(
                     "{0}(Node {1}{2})",
                     tab, key,
-                    child == null? "" : "\n" + child.ToString(depth + 1));
+                    child == null? "" : "\n" + string.Join("\n", Children().Select(c => c.ToString(depth + 1))));
         }
 
         public IEnumerable<FibonacciHeapNode> Siblings()

@@ -27,36 +27,30 @@ namespace BinarySearchTrees
         abstract public void Delete(N node);
         abstract public void Include(int key);
 
+        virtual public N FindKey(int key)
+        {
+            var tree = Trees().FirstOrDefault(t => t.key == key);
+            if (tree != null)
+                return tree;
+            return Trees().Select(t => t.FindKey(key)).FirstOrDefault(l => l != null);
+        }
+
         public void DeleteKey(int key)
         {
-            var root = Root();
-            if (root != null)
-            {
-                if (root.key == key)
-                    Delete(root);
-                else
-                {
-                    var node = root.FindKey(key);
-                    if (node != null)
-                        Delete(node);
-                }
-            }
+            var node = FindKey(key);
+            if (node != null)
+                Delete(node);
+            else
+                throw new KeyNotFoundException(string.Format("{0}", key));
         }
 
         public void DecreaseKeyFrom(int oldKey, int newKey)
         {
-            var root = Root();
-            if (root != null)
-            {
-                if (root.key == oldKey)
-                    DecreaseKey(root, newKey);
-                else
-                {
-                    var node = root.FindKey(oldKey);
-                    if (node != null)
-                        DecreaseKey(node, newKey);
-                }
-            }
+            var node = FindKey(oldKey);
+            if (node != null)
+                DecreaseKey(node, newKey);
+            else
+                throw new KeyNotFoundException(string.Format("{0}", oldKey));
         }
     }
 }

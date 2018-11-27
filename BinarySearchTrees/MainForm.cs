@@ -124,7 +124,14 @@ namespace BinarySearchTrees
                     int key = int.Parse(DeleteKeyField.Text.ToString());
                     heap.DeleteKey(key);
                 }
-                catch (FormatException) { }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Invalid format!");
+                }
+                catch (KeyNotFoundException)
+                {
+                    MessageBox.Show("Key not found!");
+                }
                 ShowTreeOrHeap();
             }
         }
@@ -139,7 +146,14 @@ namespace BinarySearchTrees
                     int newKey = int.Parse(DecreaseToKeyField.Text.ToString());
                     heap.DecreaseKeyFrom(oldKey, newKey);
                 }
-                catch (FormatException) { }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Invalid format!");
+                }
+                catch (KeyNotFoundException)
+                {
+                    MessageBox.Show("Key not found!");
+                }
                 ShowTreeOrHeap();
             }
         }
