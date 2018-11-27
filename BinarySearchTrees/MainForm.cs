@@ -102,5 +102,10 @@ namespace BinarySearchTrees
             IncludeKey(x.ToString());
             LastRandomIncluded.Text = x.ToString();
         }
+
+        private void DecreaseFromToArrow_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

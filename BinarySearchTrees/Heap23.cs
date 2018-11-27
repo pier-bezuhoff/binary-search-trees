@@ -8,7 +8,11 @@ namespace BinarySearchTrees
 {
     class Heap23 : Heap<Tree23>
     {
+        private List<Tree23> trees = new List<Tree23>();
+
         public Heap23() { }
+
+        override public IEnumerable<Tree23> Trees() => trees;
 
         override public void Include(int key)
         {
@@ -30,18 +34,19 @@ namespace BinarySearchTrees
             }
         }
 
-        public int PopMin()
+        public override int PopMin()
         {
-            var minTree = trees.Min();
-            var min = minTree.key;
-            trees.Remove(minTree);
-            if (minTree.degree > 1)
-            {
-                minTree.RemoveRoot();
-                Include(minTree);
-            }
-            return min;
+            throw new NotImplementedException();
         }
-        // TODO: delete min, decrease key, ?delete key?
+
+        public override void DecreaseKey(Tree23 node, int newKey)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Delete(Tree23 node)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

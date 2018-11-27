@@ -8,17 +8,22 @@ namespace BinarySearchTrees
 {
     abstract public class Heap<N> : ITreeLike where N : NodeT<N>
     {
-        public List<N> trees = new List<N>();
-
         public Heap() { }
 
         public override string ToString()
         {
-            return string.Format("[\n{0}\n]", string.Join("\n", trees.Select(t => t.ToString())));
+            return string.Format(
+                "[\n{0}\n]",
+                string.Join("\n", Trees().Select(t => t.ToString())));
         }
 
-        public int Min() => trees.Min().key;
+        abstract public IEnumerable<N> Trees();
 
+        public int Min() => Trees().Min().key;
+
+        abstract public int PopMin();
+        abstract public void DecreaseKey(N node, int newKey);
+        abstract public void Delete(N node);
         abstract public void Include(int key);
     }
 }

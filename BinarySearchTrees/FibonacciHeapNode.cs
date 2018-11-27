@@ -6,62 +6,54 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    class FibonacciHeapNode<E>: IComparable<FibonacciHeapNode<E>> where E : IComparable<E>
+    class FibonacciHeapNode: NodeT<FibonacciHeapNode>
     {
-        public E key;
-        public FibonacciHeapNode<E> parent = null;
-        public FibonacciHeapNode<E> child = null;
-        public FibonacciHeapNode<E> left, right;
+        // NOTE: left, right here are siblings
+        public FibonacciHeapNode left, right;
+        public FibonacciHeapNode parent = null;
+        public FibonacciHeapNode child = null;
         public int nSiblings = 1;
-        public int nChildren = 0;
-        public bool marked = false;
+        public int degree = 0; // n of children
+        public bool marked = false; // true if a child was removed
 
-        public FibonacciHeapNode(E key) {
-            this.key = key;
+        public FibonacciHeapNode(int key) : base(key) {
             left = right = this;
         }
 
-        override public string ToString() => ToString(0);
-
-        private string ToString(int depth)
+        override public string ToString(int depth)
         {
             string tab = new string(' ', 4 * depth);
-            return string.Join("\n", Siblings.Select(
-                node => $"{tab}(Node {node.key}\n{node.child.ToString(depth + 1)})"));
+            return string.Join("\n", Siblings().Select(
+                node => string.Format(
+                    "{0}(Node {1}\n{2})",
+                    tab, node.key, node.child.ToString(depth + 1))));
         }
 
-        public IEnumerable<FibonacciHeapNode<E>> Siblings
+        public IEnumerable<FibonacciHeapNode> Siblings()
         {
-            get
+            yield return this;
+            var sibling = left;
+            while (sibling != this)
             {
-                yield return this;
-                var sibling = left;
-                while (sibling != this)
-                {
-                    yield return sibling;
-                    sibling = sibling.left;
-                }
+                yield return sibling;
+                sibling = sibling.left;
             }
         }
 
-        public IEnumerable<FibonacciHeapNode<E>> Children =>
-            child == null? Enumerable.Empty<FibonacciHeapNode<E>>() : child.Siblings;
+        override public IEnumerable<FibonacciHeapNode> Children()
+            => child == null? new List<FibonacciHeapNode>(0) : child.Siblings();
 
-        public int CompareTo(FibonacciHeapNode<E> node)
-        {
-            return key.CompareTo(node.key);
-        }
-
-        public FibonacciHeapNode<E> Remove()
+        /* Remove this and find new min in siblings or null */
+        public FibonacciHeapNode Remove()
         {
             if (nSiblings == 1)
                 return null;
             left.right = right;
             right.left = left;
-            return left.Siblings.Min();
+            return left.Siblings().Min();
         }
 
-        public FibonacciHeapNode<E> AddLeft(FibonacciHeapNode<E> node)
+        public FibonacciHeapNode AddLeft(FibonacciHeapNode node)
         {
             node.left.left = left;
             node.right = this;
@@ -69,13 +61,13 @@ namespace BinarySearchTrees
             left = node;
             // and merge similar trees
             nSiblings += node.nSiblings;
-            if (this.CompareTo(node) < 0)
+            if (key < node.key)
                 return this;
             else
                 return node;
         }
 
-        public FibonacciHeapNode<E> AddRight(FibonacciHeapNode<E> node)
+        public FibonacciHeapNode AddRight(FibonacciHeapNode node)
         {
             node.right.right = right;
             node.left = this;
@@ -83,34 +75,34 @@ namespace BinarySearchTrees
             right = node;
             // and merge similar trees
             nSiblings += node.nSiblings;
-            if (this.CompareTo(node) < 0)
+            if (key < node.key)
                 return this;
             else
                 return node;
         }
 
-        public void RemoveChild(FibonacciHeapNode<E> node)
+        public void RemoveChild(FibonacciHeapNode node)
         {
             if (node == child)
                 child = node.Remove();
             else
                 node.Remove();
             node.parent = null;
-            nChildren--;
+            degree--;
         }
 
-        public void AddChild(FibonacciHeapNode<E> node)
+        public void AddChild(FibonacciHeapNode node)
         {
             if (child == null)
                 child = node;
             else
                 child = child.AddLeft(node);
             node.parent = this;
-            nChildren++;
+            degree++; // assumption: degree == node.degree
         }
 
         /* merge two trees if they share the same form */
-        public FibonacciHeapNode<E> Merge(FibonacciHeapNode<E> first, FibonacciHeapNode<E> second)
+        public FibonacciHeapNode Merge(FibonacciHeapNode first, FibonacciHeapNode second)
         {
             if (first.CompareTo(second) > 0)
             {
@@ -124,7 +116,7 @@ namespace BinarySearchTrees
             }
         }
 
-        void MergeSimilar(FibonacciHeapNode<E> node)
+        void MergeSimilar(FibonacciHeapNode node)
         {
             if (node.nSiblings > 1)
             {

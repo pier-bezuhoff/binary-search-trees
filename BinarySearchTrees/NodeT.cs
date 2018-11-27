@@ -46,6 +46,12 @@ namespace BinarySearchTrees
             return 1 + childrenHeight.GetValueOrDefault(0);
         }
 
+        /* Search key only among children or null */
+        public virtual N FindKey(int key)
+        {
+            return Children().Select(n => n.FindKey(key)).FirstOrDefault();
+        }
+
         public virtual int CompareTo(N other) => key.CompareTo(other.key);
     }
 }

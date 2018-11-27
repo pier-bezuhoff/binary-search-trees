@@ -88,34 +88,5 @@ namespace BinarySearchTrees
                 return new List<Tree23>(1) { new Tree23(min) };
             }
         }
-
-        // degree > 1, height <= 2, tree.degree <= trunk.degree
-        public void IncludeLess(Tree23 tree)
-        {
-            if (degree == 1)
-                throw new Exception("degree should be > 1!");
-            if (height <= 2)
-                throw new Exception("height should be 2!");
-            if (trunk.degree < tree.degree)
-                throw new Exception("tree.degree should be <= trunk.degree!");
-            if (height == 1)
-            {
-                var merged = 
-            }
-        }
-
-        public Tree23 RemoveRoot()
-        {
-            if (degree == 1)
-                throw new Exception("Removing root from T1!");
-            if (degree == 2)
-                return trunk.partner;
-            var trunkHead = trunk;
-            trunk = trunk.partner;
-            height--;
-            trunkHead.partner = null;
-            IncludeLess(trunkHead.RemoveRoot());
-            return this;
-        }
     }
 }

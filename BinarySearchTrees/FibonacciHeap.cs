@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    class FibonacciHeap<E> where E: IComparable<E>
+    class FibonacciHeap : Heap<FibonacciHeapNode>
     {
-        public FibonacciHeapNode<E> root = null;
-        int nNodes = 0;
+        public FibonacciHeapNode root = null; // min
+        int nNodes = 0; // maybe: delete
 
         public FibonacciHeap() {}
 
-        IEnumerable<FibonacciHeapNode<E>> Roots => root.Siblings;
+        override public IEnumerable<FibonacciHeapNode> Trees() => root.Siblings();
 
-        public void Include(E key)
+        override public void Include(int key)
         {
-            Include(new FibonacciHeapNode<E>(key));
+            Include(new FibonacciHeapNode(key));
         }
 
-        public void Include(FibonacciHeapNode<E> node)
+        public void Include(FibonacciHeapNode node)
         {
             if (root == null)
                 root = node;
@@ -29,7 +29,7 @@ namespace BinarySearchTrees
             nNodes++;
         }
 
-        public void Merge(FibonacciHeap<E> heap)
+        public void Merge(FibonacciHeap heap)
         {
             if (root == null)
                 root = heap.root;
@@ -38,12 +38,12 @@ namespace BinarySearchTrees
             nNodes += heap.nNodes;
         }
 
-        public FibonacciHeapNode<E> PopMin()
+        override public int PopMin()
         {
             var oldRoot = root;
             if (root == null)
-                throw new Exception("empty heap has no min");
-            foreach (var child in root.Children)
+                throw new Exception("Empty heap has no min!");
+            foreach (var child in root.Children())
                 child.parent = null;
             var newRoot = root.Remove();
             nNodes--;
@@ -52,73 +52,88 @@ namespace BinarySearchTrees
             else
             {
                 root = newRoot;
+                if (oldRoot.child != null)
+                    root.AddLeft(oldRoot.child);
                 Consolidate();
             }
-            return oldRoot;
+            return oldRoot.key;
         }
 
-        void DecreaseKey(FibonacciHeapNode<E> node, E newKey)
+        override public void DecreaseKey(FibonacciHeapNode node, int newKey)
         {
-            if (node.key.CompareTo(newKey) < 0)
-                throw new Exception($"new key {newKey} > old key {node.key} of {node}");
-            else if (node.key.CompareTo(newKey) > 0)
+            if (node.key < newKey)
+                throw new Exception(string.Format("new key {0} > old key {1} of {2}", newKey, node.key, node));
+            else if (node.key > newKey)
             {
                 node.key = newKey;
-                var y = node.parent;
-                if (y != null && node.CompareTo(y) < 0)
+                if (node.parent != null && newKey < node.parent.key)
                 {
-                    // cut node y
-                    // cascading cut y
+                    Cut(node);
+                    CascadingCut(node.parent);
                 }
-                if (node.CompareTo(root) < 0)
-                    root = node;
             }
-
+            // upd root -> min
         }
 
+        override public void Delete(FibonacciHeapNode node)
+        {
+            DecreaseKey(node, int.MinValue);
+            PopMin();
+        }
+
+        /* Merge trees with the same degree */
         void Consolidate()
         {
-            // TODO: understand Consolidate, Cut and CascadingCut
-            // A[i] = y <=> y.nChildren = i && y <- Roots
-            List<FibonacciHeapNode<E>> A = Enumerable.Repeat<FibonacciHeapNode<E>>(
-                null,
-                1 + Roots.Select(r => r.nChildren).Max()).ToList();
-            foreach(var node in Roots)
+            int maxDegree = Trees().Max(t => t.degree);
+            // root trees with degrees 0, 1..
+            var fixedTrees = Enumerable.Repeat<FibonacciHeapNode>(null, 2 + maxDegree).ToList();
+            foreach(var node in Trees())
             {
-                var x = node;
-                int d = node.nChildren;
-                while (A[d] != null)
+                var tree = node;
+                // merge until empty cell found
+                while (fixedTrees[tree.degree] != null)
                 {
-                    var y = A[d];
-                    if (x.CompareTo(y) > 0)
+                    var same = fixedTrees[tree.degree];
+                    if (tree.key > same.key)
                     {
-                        var tmp = x;
-                        x = y;
-                        y = tmp;
+                        var tmp = tree;
+                        tree = same;
+                        same = tmp;
                     }
-                    y.Remove();
-                    x.AddChild(y);
-                    y.marked = false;
-                    A[d] = null;
-                    d++;
+                    // now tree <= same
+                    same.Remove();
+                    tree.AddChild(same);
+                    // same.marked = false;
+                    fixedTrees[tree.degree] = null;
                 }
-                A[d] = x;
+                fixedTrees[tree.degree] = tree;
             }
+            // now <= 1 tree in each cell
             root = null;
-            foreach (var a in A.Where(x => x != null))
-                Include(a);
+            foreach (var tree in fixedTrees.Where(x => x != null))
+                Include(tree);
         }
 
-        void Cut(FibonacciHeapNode<E> node, FibonacciHeapNode<E> parent)
+        // promote to the top
+        void Cut(FibonacciHeapNode node)
         {
-            parent.RemoveChild(node);
+            node.parent.RemoveChild(node);
             Include(node);
             node.marked = false;
         }
 
-        void CascadingCut(FibonacciHeapNode<E> node)
+        // TODO: understand CascadingCut
+        // where is recurion?
+        void CascadingCut(FibonacciHeapNode node)
         {
-            var parent = node.parent;
+            var parent = node;
+            while (parent.marked)
+            {
+                Cut(parent);
+                parent = parent.parent;
+            }
+            parent.marked = true;
+            /*
             if (parent != null)
                 if (!node.marked)
                     node.marked = true;
@@ -127,6 +142,7 @@ namespace BinarySearchTrees
                     Cut(node, parent);
                     CascadingCut(parent);
                 }
+            */
         }
     }
 }
