@@ -12,7 +12,6 @@ namespace BinarySearchTrees
         public FibonacciHeapNode left, right;
         public FibonacciHeapNode parent = null;
         public FibonacciHeapNode child = null;
-        public int nSiblings = 1;
         public int degree = 0; // n of children
         public bool marked = false; // true if a child was removed
 
@@ -23,10 +22,10 @@ namespace BinarySearchTrees
         override public string ToString(int depth)
         {
             string tab = new string(' ', 4 * depth);
-            return string.Join("\n", Siblings().Select(
-                node => string.Format(
-                    "{0}(Node {1}\n{2})",
-                    tab, node.key, node.child.ToString(depth + 1))));
+            return string.Format(
+                    "{0}(Node {1}{2})",
+                    tab, key,
+                    child == null? "" : "\n" + child.ToString(depth + 1));
         }
 
         public IEnumerable<FibonacciHeapNode> Siblings()
@@ -40,27 +39,35 @@ namespace BinarySearchTrees
             }
         }
 
+        public int NSiblings() => Siblings().Count();
+
         override public IEnumerable<FibonacciHeapNode> Children()
             => child == null? new List<FibonacciHeapNode>(0) : child.Siblings();
 
         /* Remove this and find new min in siblings or null */
         public FibonacciHeapNode Remove()
         {
-            if (nSiblings == 1)
+            if (NSiblings() == 1)
                 return null;
-            left.right = right;
-            right.left = left;
-            return left.Siblings().Min();
+            left.LinkRight(right);
+            var newMin = left.Siblings().Min();
+            this.LinkRight(this);
+            return newMin;
+        }
+
+        private void LinkRight(FibonacciHeapNode node)
+        {
+            this.right = node;
+            node.left = this;
         }
 
         public FibonacciHeapNode AddLeft(FibonacciHeapNode node)
         {
-            node.left.left = left;
-            node.right = this;
-            left.right = node.left;
-            left = node;
-            // and merge similar trees
-            nSiblings += node.nSiblings;
+            var siblings = node.Siblings().ToList();
+            foreach (var s in siblings)
+                s.parent = parent;
+            left.LinkRight(node.right);
+            node.LinkRight(this);
             if (key < node.key)
                 return this;
             else
@@ -69,12 +76,11 @@ namespace BinarySearchTrees
 
         public FibonacciHeapNode AddRight(FibonacciHeapNode node)
         {
-            node.right.right = right;
-            node.left = this;
-            right.left = node.right;
-            right = node;
-            // and merge similar trees
-            nSiblings += node.nSiblings;
+            var siblings = node.Siblings().ToList();
+            foreach (var s in siblings)
+                s.parent = parent;
+            node.left.LinkRight(right);
+            this.LinkRight(node);
             if (key < node.key)
                 return this;
             else
@@ -94,34 +100,14 @@ namespace BinarySearchTrees
         public void AddChild(FibonacciHeapNode node)
         {
             if (child == null)
+            {
                 child = node;
+                node.left = node.right = node;
+            }
             else
                 child = child.AddLeft(node);
             node.parent = this;
             degree++; // assumption: degree == node.degree
-        }
-
-        /* merge two trees if they share the same form */
-        public FibonacciHeapNode Merge(FibonacciHeapNode first, FibonacciHeapNode second)
-        {
-            if (first.CompareTo(second) > 0)
-            {
-                second.AddChild(first);
-                return second;
-            }
-            else // first.key != second.key!
-            {
-                first.AddChild(second);
-                return first;
-            }
-        }
-
-        void MergeSimilar(FibonacciHeapNode node)
-        {
-            if (node.nSiblings > 1)
-            {
-                //
-            }
         }
     }
 }

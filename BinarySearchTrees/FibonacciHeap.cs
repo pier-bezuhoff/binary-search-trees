@@ -9,11 +9,11 @@ namespace BinarySearchTrees
     class FibonacciHeap : Heap<FibonacciHeapNode>
     {
         public FibonacciHeapNode root = null; // min
-        int nNodes = 0; // maybe: delete
 
         public FibonacciHeap() {}
 
-        override public IEnumerable<FibonacciHeapNode> Trees() => root.Siblings();
+        override public IEnumerable<FibonacciHeapNode> Trees() => root == null? new List<FibonacciHeapNode>() : root.Siblings();
+        override public FibonacciHeapNode Root() => root;
 
         override public void Include(int key)
         {
@@ -26,7 +26,6 @@ namespace BinarySearchTrees
                 root = node;
             else
                 root = root.AddLeft(node);
-            nNodes++;
         }
 
         public void Merge(FibonacciHeap heap)
@@ -35,7 +34,6 @@ namespace BinarySearchTrees
                 root = heap.root;
             else
                 root = root.AddLeft(heap.root);
-            nNodes += heap.nNodes;
         }
 
         override public int PopMin()
@@ -46,14 +44,15 @@ namespace BinarySearchTrees
             foreach (var child in root.Children())
                 child.parent = null;
             var newRoot = root.Remove();
-            nNodes--;
             if (newRoot == null) // single root
                 root = root.child;
             else
             {
                 root = newRoot;
                 if (oldRoot.child != null)
+                {
                     root.AddLeft(oldRoot.child);
+                }
                 Consolidate();
             }
             return oldRoot.key;
@@ -72,7 +71,7 @@ namespace BinarySearchTrees
                     CascadingCut(node.parent);
                 }
             }
-            // upd root -> min
+            // ?upd root -> min
         }
 
         override public void Delete(FibonacciHeapNode node)
@@ -84,11 +83,13 @@ namespace BinarySearchTrees
         /* Merge trees with the same degree */
         void Consolidate()
         {
-            int maxDegree = Trees().Max(t => t.degree);
+            int maxDegree = (int) Math.Ceiling(Math.Log(Trees().Sum(t => 2 ^ t.degree)) / Math.Log(2));
             // root trees with degrees 0, 1..
             var fixedTrees = Enumerable.Repeat<FibonacciHeapNode>(null, 2 + maxDegree).ToList();
-            foreach(var node in Trees())
+            var trees = Trees().ToList();
+            foreach(var node in trees)
             {
+                node.Remove();
                 var tree = node;
                 // merge until empty cell found
                 while (fixedTrees[tree.degree] != null)
@@ -101,10 +102,9 @@ namespace BinarySearchTrees
                         same = tmp;
                     }
                     // now tree <= same
-                    same.Remove();
+                    fixedTrees[tree.degree] = null;
                     tree.AddChild(same);
                     // same.marked = false;
-                    fixedTrees[tree.degree] = null;
                 }
                 fixedTrees[tree.degree] = tree;
             }

@@ -16,30 +16,45 @@ namespace BinarySearchTrees
         private Random generator = new Random();
         private int minBound = 1;
         private int maxBound = 200;
-        ITreeLike tree;
+        private bool treeMode = false; // false => heap mode
+        private List<RadioButton> treeRadio;
+        private List<RadioButton> heapRadio;
+
+        ITree tree;
+        IHeap heap;
         public MainForm()
         {
             InitializeComponent();
+            treeRadio = new List<RadioButton>() { ChooseB, ChooseFibonacci, ChooseOptimalSearch };
+            heapRadio = new List<RadioButton>() { ChooseBinomialHeap, ChooseFibonacciHeap, Choose23Heap };
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            CreateTreeLike();
+            CreateTreeOrHeap();
         }
 
-        private void CreateTreeLike()
+        private void CreateTreeOrHeap()
         {
-            if (ChooseB.Checked)
-                ;//tree = new BTree(3);
-            else if (ChooseFibonacci.Checked)
-                ;
-            else if (ChooseOptimalSearch.Checked)
-                ;
+            if (ChooseB.Checked) ;
+            else if (ChooseFibonacci.Checked) ;
+            else if (ChooseOptimalSearch.Checked) ;
             else if (Choose23Heap.Checked)
-                tree = new Heap23();
-            TreeSExp.Text = tree.ToString();
+                heap = new Heap23();
+            else if (ChooseFibonacciHeap.Checked)
+                heap = new FibonacciHeap();
+            treeMode = treeRadio.Any(r => r.Checked);
+            ShowTreeOrHeap();
             usedKeys = new List<int>();
             LastRandomIncluded.Text = "";
+        }
+
+        private void ShowTreeOrHeap()
+        {
+            if (treeMode)
+                TreeSExp.Text = tree.ToString();
+            else
+                TreeSExp.Text = heap.ToString();
         }
 
         private void IncludeKey(string s)
@@ -47,11 +62,14 @@ namespace BinarySearchTrees
             try
             {
                 int key = int.Parse(s);
-                tree.Include(key);
+                if (treeMode)
+                    tree.Include(key);
+                else
+                    heap.Include(key);
             }
             finally
             {
-                TreeSExp.Text = tree.ToString();
+                ShowTreeOrHeap();
             }
         }
 
@@ -71,30 +89,13 @@ namespace BinarySearchTrees
             IncludeKey(IncludeField.Text.ToString());
         }
 
-        private void ChooseB_CheckedChanged(object sender, EventArgs e)
-        {
-            CreateTreeLike();
-        }
-
-        private void ChooseFibonacci_CheckedChanged(object sender, EventArgs e)
-        {
-            CreateTreeLike();
-        }
-
-        private void ChooseOptimalSearch_CheckedChanged(object sender, EventArgs e)
-        {
-            CreateTreeLike();
-        }
-
-        private void Choose23Heap_CheckedChanged(object sender, EventArgs e)
-        {
-            CreateTreeLike();
-        }
-
-        private void Clear_Click(object sender, EventArgs e)
-        {
-            CreateTreeLike();
-        }
+        private void ChooseB_CheckedChanged(object sender, EventArgs e) => CreateTreeOrHeap();
+        private void ChooseFibonacci_CheckedChanged(object sender, EventArgs e) => CreateTreeOrHeap();
+        private void ChooseOptimalSearch_CheckedChanged(object sender, EventArgs e) => CreateTreeOrHeap();
+        private void ChooseBinomialHeap_CheckedChanged(object sender, EventArgs e) => CreateTreeOrHeap();
+        private void ChooseFibonacciHeap_CheckedChanged(object sender, EventArgs e) => CreateTreeOrHeap();
+        private void Choose23Heap_CheckedChanged(object sender, EventArgs e) => CreateTreeOrHeap();
+        private void Clear_Click(object sender, EventArgs e) => CreateTreeOrHeap();
 
         private void IncludeRandom_Click(object sender, EventArgs e)
         {
@@ -103,9 +104,44 @@ namespace BinarySearchTrees
             LastRandomIncluded.Text = x.ToString();
         }
 
-        private void DecreaseFromToArrow_Click(object sender, EventArgs e)
-        {
+        private void DecreaseFromToArrow_Click(object sender, EventArgs e) { }
 
+        private void DeleteMin_Click(object sender, EventArgs e)
+        {
+            if (!treeMode)
+            {
+                heap.PopMin();
+                ShowTreeOrHeap();
+            }
+        }
+
+        private void DeleteKey_Click(object sender, EventArgs e)
+        {
+            if (!treeMode)
+            {
+                try
+                {
+                    int key = int.Parse(DeleteKeyField.Text.ToString());
+                    heap.DeleteKey(key);
+                }
+                catch (FormatException) { }
+                ShowTreeOrHeap();
+            }
+        }
+
+        private void DecreaseKey_Click(object sender, EventArgs e)
+        {
+            if (!treeMode)
+            {
+                try
+                {
+                    int oldKey = int.Parse(DecreaseFromKeyField.Text.ToString());
+                    int newKey = int.Parse(DecreaseToKeyField.Text.ToString());
+                    heap.DecreaseKeyFrom(oldKey, newKey);
+                }
+                catch (FormatException) { }
+                ShowTreeOrHeap();
+            }
         }
     }
 }

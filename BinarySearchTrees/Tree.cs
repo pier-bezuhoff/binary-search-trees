@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    abstract public class Tree<N> : ITreeLike where N : NodeT<N>
+    abstract public class Tree<N> : ITree where N : NodeT<N>
     {
         public N root = null;
 

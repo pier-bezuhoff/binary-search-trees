@@ -30,6 +30,7 @@
         {
             this.ChooseB = new System.Windows.Forms.RadioButton();
             this.TreeChooser = new System.Windows.Forms.GroupBox();
+            this.ChooseBinomialHeap = new System.Windows.Forms.RadioButton();
             this.ChooseFibonacciHeap = new System.Windows.Forms.RadioButton();
             this.Choose23Heap = new System.Windows.Forms.RadioButton();
             this.ChooseOptimalSearch = new System.Windows.Forms.RadioButton();
@@ -42,10 +43,11 @@
             this.LastRandomIncluded = new System.Windows.Forms.TextBox();
             this.DeleteMin = new System.Windows.Forms.Button();
             this.DecreaseKey = new System.Windows.Forms.Button();
-            this.DecreaseFrom = new System.Windows.Forms.TextBox();
-            this.DecreaseTo = new System.Windows.Forms.TextBox();
+            this.DecreaseFromKeyField = new System.Windows.Forms.TextBox();
+            this.DecreaseToKeyField = new System.Windows.Forms.TextBox();
             this.DecreaseFromToArrow = new System.Windows.Forms.Label();
-            this.ChooseBinomialHeap = new System.Windows.Forms.RadioButton();
+            this.DeleteKey = new System.Windows.Forms.Button();
+            this.DeleteKeyField = new System.Windows.Forms.TextBox();
             this.TreeChooser.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,6 +77,18 @@
             this.TreeChooser.TabStop = false;
             this.TreeChooser.Text = "Tree/Heap";
             // 
+            // ChooseBinomialHeap
+            // 
+            this.ChooseBinomialHeap.AutoSize = true;
+            this.ChooseBinomialHeap.Location = new System.Drawing.Point(18, 76);
+            this.ChooseBinomialHeap.Name = "ChooseBinomialHeap";
+            this.ChooseBinomialHeap.Size = new System.Drawing.Size(134, 24);
+            this.ChooseBinomialHeap.TabIndex = 5;
+            this.ChooseBinomialHeap.TabStop = true;
+            this.ChooseBinomialHeap.Text = "Binomial heap";
+            this.ChooseBinomialHeap.UseVisualStyleBackColor = true;
+            this.ChooseBinomialHeap.CheckedChanged += new System.EventHandler(this.ChooseBinomialHeap_CheckedChanged);
+            // 
             // ChooseFibonacciHeap
             // 
             this.ChooseFibonacciHeap.AutoSize = true;
@@ -86,6 +100,7 @@
             this.ChooseFibonacciHeap.TabStop = true;
             this.ChooseFibonacciHeap.Text = "Fibonacci heap";
             this.ChooseFibonacciHeap.UseVisualStyleBackColor = true;
+            this.ChooseFibonacciHeap.CheckedChanged += new System.EventHandler(this.ChooseFibonacciHeap_CheckedChanged);
             // 
             // Choose23Heap
             // 
@@ -148,7 +163,7 @@
             // 
             // Clear
             // 
-            this.Clear.Location = new System.Drawing.Point(895, 330);
+            this.Clear.Location = new System.Drawing.Point(895, 473);
             this.Clear.Name = "Clear";
             this.Clear.Size = new System.Drawing.Size(187, 35);
             this.Clear.TabIndex = 5;
@@ -160,7 +175,7 @@
             // 
             this.IncludeRandom.Location = new System.Drawing.Point(895, 107);
             this.IncludeRandom.Name = "IncludeRandom";
-            this.IncludeRandom.Size = new System.Drawing.Size(187, 30);
+            this.IncludeRandom.Size = new System.Drawing.Size(187, 39);
             this.IncludeRandom.TabIndex = 6;
             this.IncludeRandom.Text = "Include random";
             this.IncludeRandom.UseVisualStyleBackColor = true;
@@ -168,7 +183,7 @@
             // 
             // LastRandomIncluded
             // 
-            this.LastRandomIncluded.Location = new System.Drawing.Point(895, 143);
+            this.LastRandomIncluded.Location = new System.Drawing.Point(895, 152);
             this.LastRandomIncluded.Name = "LastRandomIncluded";
             this.LastRandomIncluded.ReadOnly = true;
             this.LastRandomIncluded.Size = new System.Drawing.Size(187, 26);
@@ -176,65 +191,75 @@
             // 
             // DeleteMin
             // 
-            this.DeleteMin.Location = new System.Drawing.Point(895, 185);
+            this.DeleteMin.Location = new System.Drawing.Point(895, 199);
             this.DeleteMin.Name = "DeleteMin";
-            this.DeleteMin.Size = new System.Drawing.Size(187, 29);
+            this.DeleteMin.Size = new System.Drawing.Size(187, 39);
             this.DeleteMin.TabIndex = 8;
             this.DeleteMin.Text = "Delete min";
             this.DeleteMin.UseVisualStyleBackColor = true;
+            this.DeleteMin.Click += new System.EventHandler(this.DeleteMin_Click);
             // 
             // DecreaseKey
             // 
-            this.DecreaseKey.Location = new System.Drawing.Point(895, 220);
+            this.DecreaseKey.Location = new System.Drawing.Point(895, 358);
             this.DecreaseKey.Name = "DecreaseKey";
-            this.DecreaseKey.Size = new System.Drawing.Size(187, 27);
+            this.DecreaseKey.Size = new System.Drawing.Size(187, 34);
             this.DecreaseKey.TabIndex = 9;
             this.DecreaseKey.Text = "Decrease key";
             this.DecreaseKey.UseVisualStyleBackColor = true;
+            this.DecreaseKey.Click += new System.EventHandler(this.DecreaseKey_Click);
             // 
-            // DecreaseFrom
+            // DecreaseFromKeyField
             // 
-            this.DecreaseFrom.Location = new System.Drawing.Point(895, 253);
-            this.DecreaseFrom.Name = "DecreaseFrom";
-            this.DecreaseFrom.Size = new System.Drawing.Size(84, 26);
-            this.DecreaseFrom.TabIndex = 10;
+            this.DecreaseFromKeyField.Location = new System.Drawing.Point(895, 398);
+            this.DecreaseFromKeyField.Name = "DecreaseFromKeyField";
+            this.DecreaseFromKeyField.Size = new System.Drawing.Size(84, 26);
+            this.DecreaseFromKeyField.TabIndex = 10;
             // 
-            // DecreaseTo
+            // DecreaseToKeyField
             // 
-            this.DecreaseTo.Location = new System.Drawing.Point(1014, 253);
-            this.DecreaseTo.Name = "DecreaseTo";
-            this.DecreaseTo.Size = new System.Drawing.Size(68, 26);
-            this.DecreaseTo.TabIndex = 11;
+            this.DecreaseToKeyField.Location = new System.Drawing.Point(1014, 398);
+            this.DecreaseToKeyField.Name = "DecreaseToKeyField";
+            this.DecreaseToKeyField.Size = new System.Drawing.Size(68, 26);
+            this.DecreaseToKeyField.TabIndex = 11;
             // 
             // DecreaseFromToArrow
             // 
             this.DecreaseFromToArrow.AutoSize = true;
-            this.DecreaseFromToArrow.Location = new System.Drawing.Point(985, 256);
+            this.DecreaseFromToArrow.Location = new System.Drawing.Point(985, 401);
             this.DecreaseFromToArrow.Name = "DecreaseFromToArrow";
             this.DecreaseFromToArrow.Size = new System.Drawing.Size(23, 20);
             this.DecreaseFromToArrow.TabIndex = 12;
             this.DecreaseFromToArrow.Text = "->";
             this.DecreaseFromToArrow.Click += new System.EventHandler(this.DecreaseFromToArrow_Click);
             // 
-            // ChooseBinomialHeap
+            // DeleteKey
             // 
-            this.ChooseBinomialHeap.AutoSize = true;
-            this.ChooseBinomialHeap.Location = new System.Drawing.Point(18, 76);
-            this.ChooseBinomialHeap.Name = "ChooseBinomialHeap";
-            this.ChooseBinomialHeap.Size = new System.Drawing.Size(134, 24);
-            this.ChooseBinomialHeap.TabIndex = 5;
-            this.ChooseBinomialHeap.TabStop = true;
-            this.ChooseBinomialHeap.Text = "Binomial heap";
-            this.ChooseBinomialHeap.UseVisualStyleBackColor = true;
+            this.DeleteKey.Location = new System.Drawing.Point(895, 244);
+            this.DeleteKey.Name = "DeleteKey";
+            this.DeleteKey.Size = new System.Drawing.Size(187, 34);
+            this.DeleteKey.TabIndex = 13;
+            this.DeleteKey.Text = "Delete key";
+            this.DeleteKey.UseVisualStyleBackColor = true;
+            this.DeleteKey.Click += new System.EventHandler(this.DeleteKey_Click);
+            // 
+            // DeleteKeyField
+            // 
+            this.DeleteKeyField.Location = new System.Drawing.Point(895, 284);
+            this.DeleteKeyField.Name = "DeleteKeyField";
+            this.DeleteKeyField.Size = new System.Drawing.Size(186, 26);
+            this.DeleteKeyField.TabIndex = 14;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1495, 932);
+            this.Controls.Add(this.DeleteKeyField);
+            this.Controls.Add(this.DeleteKey);
             this.Controls.Add(this.DecreaseFromToArrow);
-            this.Controls.Add(this.DecreaseTo);
-            this.Controls.Add(this.DecreaseFrom);
+            this.Controls.Add(this.DecreaseToKeyField);
+            this.Controls.Add(this.DecreaseFromKeyField);
             this.Controls.Add(this.DecreaseKey);
             this.Controls.Add(this.DeleteMin);
             this.Controls.Add(this.LastRandomIncluded);
@@ -270,10 +295,12 @@
         private System.Windows.Forms.RadioButton ChooseFibonacciHeap;
         private System.Windows.Forms.Button DeleteMin;
         private System.Windows.Forms.Button DecreaseKey;
-        private System.Windows.Forms.TextBox DecreaseFrom;
-        private System.Windows.Forms.TextBox DecreaseTo;
+        private System.Windows.Forms.TextBox DecreaseFromKeyField;
+        private System.Windows.Forms.TextBox DecreaseToKeyField;
         private System.Windows.Forms.Label DecreaseFromToArrow;
         private System.Windows.Forms.RadioButton ChooseBinomialHeap;
+        private System.Windows.Forms.Button DeleteKey;
+        private System.Windows.Forms.TextBox DeleteKeyField;
     }
 }
 

@@ -13,6 +13,7 @@ namespace BinarySearchTrees
         public Heap23() { }
 
         override public IEnumerable<Tree23> Trees() => trees;
+        public override Tree23 Root() => trees.Count() == 0? null : trees[0];
 
         override public void Include(int key)
         {

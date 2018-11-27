@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTrees
 {
-    public interface ITreeLike
+    interface IHeap
     {
         void Include(int key);
+        int Min();
+        int PopMin();
+        void DeleteKey(int key);
+        void DecreaseKeyFrom(int oldKey, int newKey);
     }
 }
