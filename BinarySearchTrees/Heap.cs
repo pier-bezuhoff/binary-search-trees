@@ -29,10 +29,10 @@ namespace BinarySearchTrees
 
         virtual public N FindKey(int key)
         {
-            var tree = Trees().FirstOrDefault(t => t.key == key);
-            if (tree != null)
-                return tree;
-            return Trees().Select(t => t.FindKey(key)).FirstOrDefault(l => l != null);
+            var apropriateTree = Trees().FirstOrDefault(t => t.key == key);
+            if (apropriateTree != null)
+                return apropriateTree;
+            return Trees().Select(t => t.FindKey(key)).FirstOrDefault(lu => lu != null);
         }
 
         public void DeleteKey(int key)

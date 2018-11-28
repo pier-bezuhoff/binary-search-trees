@@ -65,13 +65,14 @@ namespace BinarySearchTrees
             else if (node.key > newKey)
             {
                 node.key = newKey;
-                if (node.parent != null && newKey < node.parent.key)
+                var parent = node.parent;
+                if (parent != null && newKey < parent.key)
                 {
                     Cut(node);
-                    CascadingCut(node.parent);
+                    CascadingCut(parent);
                 }
             }
-            // ?upd root -> min
+            root = Trees().Min();
         }
 
         override public void Delete(FibonacciHeapNode node)
@@ -119,30 +120,21 @@ namespace BinarySearchTrees
         {
             node.parent.RemoveChild(node);
             Include(node);
-            node.marked = false;
+            node.marked = false; // why?
         }
 
         // TODO: understand CascadingCut
         // where is recurion?
         void CascadingCut(FibonacciHeapNode node)
         {
-            var parent = node;
-            while (parent.marked)
+            while (node != null && node.marked)
             {
-                Cut(parent);
-                parent = parent.parent;
+                var parent = node.parent;
+                Cut(node);
+                node = parent;
             }
-            parent.marked = true;
-            /*
-            if (parent != null)
-                if (!node.marked)
-                    node.marked = true;
-                else
-                {
-                    Cut(node, parent);
-                    CascadingCut(parent);
-                }
-            */
+            if (node != null)
+                node.marked = true;
         }
     }
 }

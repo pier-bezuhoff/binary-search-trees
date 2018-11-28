@@ -93,8 +93,9 @@ namespace BinarySearchTrees
                 child = node.Remove();
             else
                 node.Remove();
-            node.parent = null;
-            degree--;
+            node.parent = null; // mark, maybe?
+            degree--; // not so simple, I think
+            // degree = 1 + Children().Select(c => c.degree).Max();
         }
 
         public void AddChild(FibonacciHeapNode node)

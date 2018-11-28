@@ -25,6 +25,20 @@ namespace BinarySearchTrees
         public MainForm()
         {
             InitializeComponent();
+            Action<TextBox, Button> connectEnter = (field, button) => {
+                field.KeyUp += (object sender, KeyEventArgs e) =>
+                {
+                    if (e.KeyCode == Keys.Enter)
+                    {
+                        button.PerformClick();
+                        e.Handled = true;
+                    }
+                };
+            };
+            connectEnter(IncludeField, Include);
+            connectEnter(DeleteKeyField, DeleteKey);
+            connectEnter(DecreaseFromKeyField, DecreaseKey);
+            connectEnter(DecreaseToKeyField, DecreaseKey);
             treeRadio = new List<RadioButton>() { ChooseB, ChooseFibonacci, ChooseOptimalSearch };
             heapRadio = new List<RadioButton>() { ChooseBinomialHeap, ChooseFibonacciHeap, Choose23Heap };
         }
@@ -51,10 +65,11 @@ namespace BinarySearchTrees
 
         private void ShowTreeOrHeap()
         {
+            OldTreeSExp.Text = NewTreeSExp.Text.ToString();
             if (treeMode)
-                TreeSExp.Text = tree.ToString();
+                NewTreeSExp.Text = tree.ToString();
             else
-                TreeSExp.Text = heap.ToString();
+                NewTreeSExp.Text = heap.ToString();
         }
 
         private void IncludeKey(string s)
@@ -87,6 +102,15 @@ namespace BinarySearchTrees
         private void Include_Click(object sender, EventArgs e)
         {
             IncludeKey(IncludeField.Text.ToString());
+        }
+
+        private void IncludeField_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Include.PerformClick();
+                e.Handled = true;
+            }
         }
 
         private void ChooseB_CheckedChanged(object sender, EventArgs e) => CreateTreeOrHeap();
@@ -136,6 +160,15 @@ namespace BinarySearchTrees
             }
         }
 
+        private void DeleteKeyField_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DeleteKey.PerformClick();
+                e.Handled = true;
+            }
+        }
+
         private void DecreaseKey_Click(object sender, EventArgs e)
         {
             if (!treeMode)
@@ -155,6 +188,15 @@ namespace BinarySearchTrees
                     MessageBox.Show("Key not found!");
                 }
                 ShowTreeOrHeap();
+            }
+        }
+
+        private void DecreaseKeyField_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DecreaseKey.PerformClick();
+                e.Handled = true;
             }
         }
     }

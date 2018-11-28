@@ -35,7 +35,7 @@
             this.Choose23Heap = new System.Windows.Forms.RadioButton();
             this.ChooseOptimalSearch = new System.Windows.Forms.RadioButton();
             this.ChooseFibonacci = new System.Windows.Forms.RadioButton();
-            this.TreeSExp = new System.Windows.Forms.RichTextBox();
+            this.OldTreeSExp = new System.Windows.Forms.RichTextBox();
             this.IncludeField = new System.Windows.Forms.TextBox();
             this.Include = new System.Windows.Forms.Button();
             this.Clear = new System.Windows.Forms.Button();
@@ -48,6 +48,8 @@
             this.DecreaseFromToArrow = new System.Windows.Forms.Label();
             this.DeleteKey = new System.Windows.Forms.Button();
             this.DeleteKeyField = new System.Windows.Forms.TextBox();
+            this.NewTreeSExp = new System.Windows.Forms.RichTextBox();
+            this.OldNewSExpArrow = new System.Windows.Forms.Label();
             this.TreeChooser.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,14 +137,14 @@
             this.ChooseFibonacci.UseVisualStyleBackColor = true;
             this.ChooseFibonacci.CheckedChanged += new System.EventHandler(this.ChooseFibonacci_CheckedChanged);
             // 
-            // TreeSExp
+            // OldTreeSExp
             // 
-            this.TreeSExp.Location = new System.Drawing.Point(31, 164);
-            this.TreeSExp.Name = "TreeSExp";
-            this.TreeSExp.ReadOnly = true;
-            this.TreeSExp.Size = new System.Drawing.Size(682, 756);
-            this.TreeSExp.TabIndex = 2;
-            this.TreeSExp.Text = "";
+            this.OldTreeSExp.Location = new System.Drawing.Point(31, 164);
+            this.OldTreeSExp.Name = "OldTreeSExp";
+            this.OldTreeSExp.ReadOnly = true;
+            this.OldTreeSExp.Size = new System.Drawing.Size(323, 756);
+            this.OldTreeSExp.TabIndex = 2;
+            this.OldTreeSExp.Text = "";
             // 
             // IncludeField
             // 
@@ -250,11 +252,32 @@
             this.DeleteKeyField.Size = new System.Drawing.Size(186, 26);
             this.DeleteKeyField.TabIndex = 14;
             // 
+            // NewTreeSExp
+            // 
+            this.NewTreeSExp.Location = new System.Drawing.Point(389, 164);
+            this.NewTreeSExp.Name = "NewTreeSExp";
+            this.NewTreeSExp.ReadOnly = true;
+            this.NewTreeSExp.Size = new System.Drawing.Size(324, 756);
+            this.NewTreeSExp.TabIndex = 15;
+            this.NewTreeSExp.Text = "";
+            // 
+            // OldNewSExpArrow
+            // 
+            this.OldNewSExpArrow.AutoSize = true;
+            this.OldNewSExpArrow.BackColor = System.Drawing.SystemColors.Control;
+            this.OldNewSExpArrow.Location = new System.Drawing.Point(360, 152);
+            this.OldNewSExpArrow.Name = "OldNewSExpArrow";
+            this.OldNewSExpArrow.Size = new System.Drawing.Size(23, 20);
+            this.OldNewSExpArrow.TabIndex = 16;
+            this.OldNewSExpArrow.Text = "->";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1495, 932);
+            this.Controls.Add(this.OldNewSExpArrow);
+            this.Controls.Add(this.NewTreeSExp);
             this.Controls.Add(this.DeleteKeyField);
             this.Controls.Add(this.DeleteKey);
             this.Controls.Add(this.DecreaseFromToArrow);
@@ -267,7 +290,7 @@
             this.Controls.Add(this.Clear);
             this.Controls.Add(this.Include);
             this.Controls.Add(this.IncludeField);
-            this.Controls.Add(this.TreeSExp);
+            this.Controls.Add(this.OldTreeSExp);
             this.Controls.Add(this.TreeChooser);
             this.Name = "MainForm";
             this.Text = "BinarySearchTrees";
@@ -285,7 +308,7 @@
         private System.Windows.Forms.GroupBox TreeChooser;
         private System.Windows.Forms.RadioButton ChooseOptimalSearch;
         private System.Windows.Forms.RadioButton ChooseFibonacci;
-        private System.Windows.Forms.RichTextBox TreeSExp;
+        private System.Windows.Forms.RichTextBox OldTreeSExp;
         private System.Windows.Forms.TextBox IncludeField;
         private System.Windows.Forms.Button Include;
         private System.Windows.Forms.RadioButton Choose23Heap;
@@ -301,6 +324,8 @@
         private System.Windows.Forms.RadioButton ChooseBinomialHeap;
         private System.Windows.Forms.Button DeleteKey;
         private System.Windows.Forms.TextBox DeleteKeyField;
+        private System.Windows.Forms.RichTextBox NewTreeSExp;
+        private System.Windows.Forms.Label OldNewSExpArrow;
     }
 }
 

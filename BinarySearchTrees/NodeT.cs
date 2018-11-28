@@ -44,7 +44,10 @@ namespace BinarySearchTrees
         /* Search key only among children or null */
         virtual public N FindKey(int key)
         {
-            return Children().Select(n => n.FindKey(key)).FirstOrDefault();
+            var apropriateChild = Children().FirstOrDefault(c => c.key == key);
+            if (apropriateChild != null)
+                return apropriateChild;
+            return Children().Select(n => n.FindKey(key)).FirstOrDefault(lu => lu != null);
         }
 
         virtual public int CompareTo(N other) => key.CompareTo(other.key);
