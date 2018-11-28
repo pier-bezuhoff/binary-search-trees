@@ -94,8 +94,8 @@ namespace BinarySearchTrees
             else
                 node.Remove();
             node.parent = null; // mark, maybe?
-            degree--; // not so simple, I think
-            // degree = 1 + Children().Select(c => c.degree).Max();
+            // degree--; // not so simple, I think
+            degree = Degree();
         }
 
         public void AddChild(FibonacciHeapNode node)
@@ -108,7 +108,11 @@ namespace BinarySearchTrees
             else
                 child = child.AddLeft(node);
             node.parent = this;
-            degree++; // assumption: degree == node.degree
+            degree = Degree();
+            // degree++; // I think, it fails sometimes
         }
+
+        /* Shallow compute degree (from children only) */
+        private int Degree() => child == null? 0 : 1 + Children().Select(c => c.degree).Max();
     }
 }

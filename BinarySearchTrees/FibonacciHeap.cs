@@ -84,7 +84,7 @@ namespace BinarySearchTrees
         /* Merge trees with the same degree */
         void Consolidate()
         {
-            int maxDegree = (int) Math.Ceiling(Math.Log(Trees().Sum(t => 2 ^ t.degree)) / Math.Log(2));
+            int maxDegree = (int) Math.Ceiling(Math.Log(Trees().Sum(t => 1 << t.degree)) / Math.Log(2));
             // root trees with degrees 0, 1..
             var fixedTrees = Enumerable.Repeat<FibonacciHeapNode>(null, 2 + maxDegree).ToList();
             var trees = Trees().ToList();
@@ -118,8 +118,11 @@ namespace BinarySearchTrees
         // promote to the top
         void Cut(FibonacciHeapNode node)
         {
-            node.parent.RemoveChild(node);
-            Include(node);
+            if (node.parent != null)
+            {
+                node.parent.RemoveChild(node);
+                Include(node);
+            }
             node.marked = false; // why?
         }
 
