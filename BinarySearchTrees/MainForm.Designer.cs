@@ -82,6 +82,7 @@
             // ChooseBinomialHeap
             // 
             this.ChooseBinomialHeap.AutoSize = true;
+            this.ChooseBinomialHeap.Checked = true;
             this.ChooseBinomialHeap.Location = new System.Drawing.Point(18, 76);
             this.ChooseBinomialHeap.Name = "ChooseBinomialHeap";
             this.ChooseBinomialHeap.Size = new System.Drawing.Size(134, 24);
@@ -94,12 +95,10 @@
             // ChooseFibonacciHeap
             // 
             this.ChooseFibonacciHeap.AutoSize = true;
-            this.ChooseFibonacciHeap.Checked = true;
             this.ChooseFibonacciHeap.Location = new System.Drawing.Point(158, 76);
             this.ChooseFibonacciHeap.Name = "ChooseFibonacciHeap";
             this.ChooseFibonacciHeap.Size = new System.Drawing.Size(142, 24);
             this.ChooseFibonacciHeap.TabIndex = 4;
-            this.ChooseFibonacciHeap.TabStop = true;
             this.ChooseFibonacciHeap.Text = "Fibonacci heap";
             this.ChooseFibonacciHeap.UseVisualStyleBackColor = true;
             this.ChooseFibonacciHeap.CheckedChanged += new System.EventHandler(this.ChooseFibonacciHeap_CheckedChanged);

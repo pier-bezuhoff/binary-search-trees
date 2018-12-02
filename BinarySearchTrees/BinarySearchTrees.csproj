@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="BinaryNode.cs" />
     <Compile Include="BinaryNodeT.cs" />
+    <Compile Include="BinomialHeap.cs" />
+    <Compile Include="BinomialTree.cs" />
     <Compile Include="BTree.cs" />
     <Compile Include="BTreeNode.cs" />
     <Compile Include="FibonacciHeap.cs" />

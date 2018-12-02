@@ -30,7 +30,7 @@ namespace BinarySearchTrees
         abstract public IEnumerable<N> Children();
 
         virtual public int NChildren() => Children().Count();
-        virtual public N AChild() => Children().First();
+        virtual public N AChild() => Children().FirstOrDefault();
         virtual public bool IsLeaf() => NChildren() == 0;
         virtual public bool HasAChild() => NChildren() == 1;
         virtual public bool Has2Children() => NChildren() == 2;

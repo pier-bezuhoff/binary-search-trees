@@ -126,8 +126,6 @@ namespace BinarySearchTrees
             node.marked = false; // why?
         }
 
-        // TODO: understand CascadingCut
-        // where is recurion?
         void CascadingCut(FibonacciHeapNode node)
         {
             while (node != null && node.marked)

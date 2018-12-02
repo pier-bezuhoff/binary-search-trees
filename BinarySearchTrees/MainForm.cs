@@ -55,6 +55,8 @@ namespace BinarySearchTrees
             else if (ChooseOptimalSearch.Checked) ;
             else if (Choose23Heap.Checked)
                 heap = new Heap23();
+            else if (ChooseBinomialHeap.Checked)
+                heap = new BinomialHeap();
             else if (ChooseFibonacciHeap.Checked)
                 heap = new FibonacciHeap();
             treeMode = treeRadio.Any(r => r.Checked);
