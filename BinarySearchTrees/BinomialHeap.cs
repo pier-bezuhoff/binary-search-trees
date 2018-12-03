@@ -64,6 +64,11 @@ namespace BinarySearchTrees
                                 root = next;
                         }
                     }
+                    else if (tree.degree > next.degree)
+                    {
+                        // push swapping until ==
+                        // o=source of bugs
+                    }
                     tree = next;
                 }
             }
@@ -98,6 +103,7 @@ namespace BinarySearchTrees
             Merge(heap);
         }
 
+        // break order sometimes!
         public override int PopMin()
         {
             if (root == null)
@@ -112,19 +118,7 @@ namespace BinarySearchTrees
             }
             else
                 root = min.sibling;
-            // BUG: order is broken((
-            // reverse linking in order to keep degree-order
-            var childRoot = min.child;
-            BinomialTree previous = null;
-            while (childRoot.sibling != null)
-            {
-                var next = childRoot.sibling;
-                childRoot.sibling = previous;
-                previous = childRoot;
-                childRoot = next;
-            }
-            childRoot.sibling = previous;
-            var childHeap = new BinomialHeap { root = childRoot };
+            var childHeap = new BinomialHeap { root = min.child };
             foreach (var child in childHeap.Trees())
                 child.parent = null;
             Merge(childHeap);

@@ -26,14 +26,24 @@ namespace BinarySearchTrees
             }
         }
 
+        public BinomialTree FurthestSibling()
+        {
+            var tree = this;
+            while (tree.sibling != null)
+                tree = tree.sibling;
+            return tree;
+        }
+
         override public IEnumerable<BinomialTree> Children() => child == null? new List<BinomialTree>(0) : child.Siblings();
 
         public void AddChild(BinomialTree tree)
         {
-            var oldChild = child;
-            child = tree;
-            child.parent = this;
-            child.sibling = oldChild;
+            if (child == null)
+                child = tree;
+            else
+                child.FurthestSibling().sibling = tree;
+            tree.parent = this;
+            tree.sibling = null;
             if (tree.degree == degree)
                 degree++;
         }
